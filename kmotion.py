@@ -53,10 +53,25 @@ def main():
     #print(labels_list[0])
     #print(type(labels_list))
 
+    '''for item in source_pod_object.metadata.labels.items():
+        if "app" in source_pod_object.metadata.labels.items():
+            print("App Label Key found")
+
+            break
+        else:
+            print
+            "No keys found"
+    '''
+
+
     # Will need to work on this in future - Currently takes first label for the pod
     # usually app=xyz so this works. Can easily make a label selector for user to choose.
-    selector = '{0}={1}'.format(labels_list[0][0],labels_list[0][1])
-    backup_name = '{0}-{1}-{2}'.format(labels_list[0][0], labels_list[0][1],timestr)
+    akey = labels_list[0][0]
+    avalue = labels_list[0][1]
+    print("akey =", akey)
+    print("avalue =", avalue)
+    selector = '{0}={1}'.format(akey, avalue)
+    backup_name = '{0}-{1}-{2}'.format(akey, avalue,timestr)
     print("selector string is", selector)
 
     ######## VELERO WORK ########
