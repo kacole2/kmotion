@@ -59,7 +59,7 @@ def main():
     backup_name = '{0}-{1}-{2}'.format(labels_list[0][0], labels_list[0][1],timestr)
     print("selector string is", selector)
 
-    ## VELERO WORK
+    ######## VELERO WORK ########
 
     # VELERO BACKUP Section
     backup_create_cmd = ['velero', 'backup', 'create', backup_name, '--selector', selector, '-w', '--kubecontext', cluster1]
@@ -69,9 +69,33 @@ def main():
     backup_query_cmd = ['velero', 'backup', 'describe', backup_name, '--kubecontext',cluster1]
     subprocess.check_call(backup_query_cmd)
 
+    time.sleep(8)
+
+    '''# DEBUG for TESTING - VELERO BACKUP Delete
+    backup_delete_cmd = ['velero', 'backup', 'delete', backup_name, '--kubecontext', cluster2, '--confirm']
+    subprocess.check_call(backup_delete_cmd)
+    print("DEBUG - Sleeping for 25 seconds")
+    time.sleep(25)
+    '''
+
     # TEMP for testing purposes delete the namespace before restoring to same location
     #k8s_delete_ns_cmd = ['kubectl', 'delete', 'namespace', 'lucky13','--force']
     #subprocess.check_call(k8s_delete_ns_cmd)
+
+
+    # Work to interpret results of velero backup get
+    #output = subprocess.check_output("velero backup get -o json; exit 0", stderr=subprocess.STDOUT, shell=True)
+    output = subprocess.check_output("velero backup get; exit 0", stderr=subprocess.STDOUT, shell=True)
+    #DEBUG print("Output from subprocess.check velero backup get =", output)
+    #DEBUG result = output.find(backup_name.encode())
+    #DEBUG print("Results", result)
+
+    while (output.find(backup_name.encode()) == -1):
+        print("Waiting for Backup to be synchronized with Recovery Cluster . . . ")
+        time.sleep(4)
+    else:
+        print("Velero backup exists on Recovery Cluster. Moving to next step.")
+        #return
 
     # VELERO Restore
     restore_create_cmd = ['velero', 'restore', 'create', backup_name, '--from-backup', backup_name, '-w','--kubecontext',cluster2]
@@ -84,23 +108,6 @@ def main():
     # VELERO BACKUP Delete
     backup_delete_cmd = ['velero', 'backup', 'delete', backup_name, '--kubecontext',cluster2, '--confirm']
     subprocess.check_call(backup_delete_cmd)
-
-    '''
-    Velero Pseudo Code Placeholder
-    Velero create backup
-    velero backup create nginx-backup --selector app=nginx
-    return backup name
-    velero get backup <name>
-    Wait until we get a response. This will error out until the DST K8s cluster synchronizes with the backup
-    metadata on the S3 Datastore. When it starts responding we can move onto Restore.
-    
-    Check for Destinatinon Health Check is GOOD
-    Once Health Check is good - (Liveness Probes, Health Proves) then Proceed
-    Delete the POD(s) in the Source Cluster.
-    
-    
-    '''
-
 
 
 
