@@ -1,6 +1,7 @@
-# 2019 Team 13
+# Hackathon Lucky Team13
 
-from kubernetes import client, config
+from kubernetes import client
+from kubernetes import config
 # install pick using "pip install pick". It is not included
 # as a dependency because it only used in examples
 from pick import pick
@@ -81,7 +82,7 @@ def main():
     subprocess.check_call(restore_describe_cmd)
 
     # VELERO BACKUP Delete
-    backup_delete_cmd = ['velero', 'backup', 'delete', backup_name, '--kubecontext',cluster2]
+    backup_delete_cmd = ['velero', 'backup', 'delete', backup_name, '--kubecontext',cluster2, '--confirm']
     subprocess.check_call(backup_delete_cmd)
 
     '''
