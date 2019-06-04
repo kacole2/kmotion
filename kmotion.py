@@ -107,12 +107,13 @@ def main():
     #DEBUG result = output.find(backup_name.encode())
     #DEBUG print("Results", result)
 
-    while (output.find(backup_name.encode()) == -1):
-        print("Waiting for Backup to be synchronized with Recovery Cluster . . . ")
-        time.sleep(4)
-    else:
-        print("Velero backup exists on Recovery Cluster. Moving to next step.")
-        #return
+    while (True):
+        if (output.find(backup_name.encode()) != -1):
+            print("Velero backup exists on Recovery Cluster. Moving to next step.")
+            break
+        else:
+            print("Waiting for Backup to be synchronized with Recovery Cluster . . . ")
+            time.sleep(4)
 
     # VELERO Restore
     restore_create_cmd = ['velero', 'restore', 'create', backup_name, '--from-backup', backup_name, '-w','--kubecontext',cluster2]
