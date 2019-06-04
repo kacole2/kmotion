@@ -23,7 +23,7 @@ def main():
     client1 = client.CoreV1Api(
         api_client=config.new_client_from_config(context=cluster1))
 
-    
+
     # Create Python List of all PODs in SRC Namespace for PICK Module
     source_pods = [i.metadata.name for i in client1.list_pod_for_all_namespaces().items]
     # DEBUGONLY print("\nList of source_pods on %s:" % source_pods)
@@ -69,8 +69,8 @@ def main():
     subprocess.check_call(backup_query_cmd)
 
     # TEMP for testing purposes delete the namespace before restoring to same location
-    k8s_delete_ns_cmd = ['kubectl', 'delete', 'namespace', 'lucky13','--force']
-    subprocess.check_call(k8s_delete_ns_cmd)
+    #k8s_delete_ns_cmd = ['kubectl', 'delete', 'namespace', 'lucky13','--force']
+    #subprocess.check_call(k8s_delete_ns_cmd)
 
     # VELERO Restore
     restore_create_cmd = ['velero', 'restore', 'create', backup_name, '--from-backup', backup_name, '-w','--kubecontext',cluster2]
