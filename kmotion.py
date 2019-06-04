@@ -73,6 +73,7 @@ def main():
     selector = '{0}={1}'.format(akey, avalue)
     backup_name = '{0}-{1}-{2}'.format(akey, avalue,timestr)
     print("selector string is", selector)
+    print("backup_name string is", backup_name)
 
     ######## VELERO WORK ########
 
