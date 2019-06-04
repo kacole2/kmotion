@@ -33,28 +33,30 @@ def main():
     print(type(source_pod_object))
     print ('This is the POD you selected {0}'.format(source_pod_object.metadata.name))
 
-    labels = source_pod_object.metadata.
+    # Work for grabbing labels from the POD object we now have.
+    # labels = source_pod_object.metadata.
 
 
 
-
+    '''
     # Original Code for listing pods
     print("\nList of pods on %s:" % cluster1)
 
     for i in client1.list_pod_for_all_namespaces().items:
         print("%s\t%s\t%s" % (i.status.pod_ip, i.metadata.namespace, i.metadata.name))
+    '''
 
 
 
     cluster2, _ = pick(contexts, title="Pick the target Cluster Context for the POD to be restored to",
                        default_index=first_index)
 
-
     client2 = client.CoreV1Api(
         api_client=config.new_client_from_config(context=cluster2))
 
 
 
+    print('KMotioning POD {0} from {1} cluster to {2} cluster... '.format(source_pod_object.metadata.name, cluster1, cluster2))
 
 
     '''
