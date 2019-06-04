@@ -65,6 +65,8 @@ def main():
     backup_create_cmd = ['velero', 'backup', 'create', backup_name, '--selector', selector, '-w', '--kubecontext', cluster1]
     subprocess.check_call(backup_create_cmd)
 
+
+    # CAN PROBABLY GET RID OF THIS EVENTUALLY
     # VELERO BACKUP Status
     backup_query_cmd = ['velero', 'backup', 'describe', backup_name, '--kubecontext',cluster1]
     subprocess.check_call(backup_query_cmd)
@@ -78,10 +80,9 @@ def main():
     time.sleep(25)
     '''
 
-    # TEMP for testing purposes delete the namespace before restoring to same location
-    #k8s_delete_ns_cmd = ['kubectl', 'delete', 'namespace', 'lucky13','--force']
-    #subprocess.check_call(k8s_delete_ns_cmd)
-
+    #DEBUG Check the existence of backup on the DESTINATION side.
+    backup_get_cmd = ['velero', 'backup', 'get', '--kubecontext', cluster2]
+    subprocess.check_call(backup_get_cmd)
 
     # Work to interpret results of velero backup get
     #output = subprocess.check_output("velero backup get -o json; exit 0", stderr=subprocess.STDOUT, shell=True)
