@@ -87,7 +87,7 @@ def main():
     #DEBUG backup_query_cmd = ['velero', 'backup', 'describe', backup_name, '--kubecontext',cluster1]
     #DEBUG subprocess.check_call(backup_query_cmd)
 
-    time.sleep(8)
+    time.sleep(3)
 
     '''# DEBUG for TESTING - VELERO BACKUP Delete
     backup_delete_cmd = ['velero', 'backup', 'delete', backup_name, '--kubecontext', cluster2, '--confirm']
@@ -101,20 +101,42 @@ def main():
     subprocess.check_call(backup_get_cmd)
 
     # Work to interpret results of velero backup get
-    #output = subprocess.check_output("velero backup get -o json; exit 0", stderr=subprocess.STDOUT, shell=True)
-    output = subprocess.check_output("velero backup get; exit 0", stderr=subprocess.STDOUT, shell=True)
-    #DEBUG print("Output from subprocess.check velero backup get =", output)
-    #DEBUG result = output.find(backup_name.encode())
-    #DEBUG print("Results", result)
+    output = subprocess.check_output(['velero', 'backup', 'get', '--kubecontext', cluster2 ]).decode()
+    print(type(output))
 
+    '''
+    while (output.indexOf(backup_name) < 0):
+        print("NEW ouput Waiting for Backup to be synchronized with Recovery Cluster . . . ")
+        time.sleep(4)
+    else:
+        print("NEW output Velero backup exists on Recovery Cluster. Moving to next step.")
+        # return
+    '''
+
+
+    while (output.find(backup_name) == -1):
+        print("Waiting for Backup to be synchronized with Recovery Cluster . . . ")
+        print("output velero get ", output)
+        print("backup_name.encode", backup_name)
+        print("Find Integer value", output.find(backup_name))
+        time.sleep(4)
+    else:
+        print("Velero backup exists on Recovery Cluster. Moving to next step.")
+
+    '''
+
+    # Not Working right now 
     while (True):
-        if (output.find(backup_name.encode()) != -1):
+
+        if (output.find(backup_name) != -1):
             print("Velero backup exists on Recovery Cluster. Moving to next step.")
             break
         else:
+            print("backup_name.encode", backup_name)
+            print("Find Integer value", output.find(backup_name))
             print("Waiting for Backup to be synchronized with Recovery Cluster . . . ")
             time.sleep(4)
-
+    '''
     # VELERO Restore
     restore_create_cmd = ['velero', 'restore', 'create', backup_name, '--from-backup', backup_name, '-w','--kubecontext',cluster2]
     subprocess.check_call(restore_create_cmd)
