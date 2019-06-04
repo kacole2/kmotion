@@ -68,8 +68,8 @@ def main():
 
     # CAN PROBABLY GET RID OF THIS EVENTUALLY
     # VELERO BACKUP Status
-    backup_query_cmd = ['velero', 'backup', 'describe', backup_name, '--kubecontext',cluster1]
-    subprocess.check_call(backup_query_cmd)
+    #DEBUG backup_query_cmd = ['velero', 'backup', 'describe', backup_name, '--kubecontext',cluster1]
+    #DEBUG subprocess.check_call(backup_query_cmd)
 
     time.sleep(8)
 
