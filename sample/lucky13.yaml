@@ -39,7 +39,7 @@ spec:
     spec:
       containers:
       - name: nginx
-        image: lander2k2/lucky13:0.10
+        image: lander2k2/lucky13:0.11
         ports:
         - containerPort: 80
         env:
