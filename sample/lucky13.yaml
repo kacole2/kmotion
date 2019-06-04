@@ -39,7 +39,12 @@ spec:
     spec:
       containers:
       - name: nginx
-        image: nginx:1.15
+        image: lander2k2/lucky13:0.10
         ports:
         - containerPort: 80
+        env:
+        - name: MY_NODE_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
 
