@@ -122,7 +122,7 @@ def main():
         time.sleep(4)
     else:
         print("Velero backup exists on Recovery Cluster. Moving to next step.")
-
+        return
     '''
 
     # Not Working right now 
