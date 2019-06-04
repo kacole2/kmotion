@@ -17,22 +17,24 @@ def main():
     contexts = [context['name'] for context in contexts]
 
     active_index = contexts.index(active_context['name'])
+    # PICK to select SOURCE Cluster for KMOTION
     cluster1, first_index = pick(contexts, title="Pick the source Cluster Context for the POD to be backed up",
                                  default_index=active_index)
-
     client1 = client.CoreV1Api(
         api_client=config.new_client_from_config(context=cluster1))
 
-    cluster2, _ = pick(contexts, title="Pick the target Cluster Context for the POD to be restored to",
-                       default_index=first_index)
-
-    client2 = client.CoreV1Api(
-        api_client=config.new_client_from_config(context=cluster2))
-
+    
     # Create Python List of all PODs in SRC Namespace for PICK Module
     source_pods = [i.metadata.name for i in client1.list_pod_for_all_namespaces().items]
     # DEBUGONLY print("\nList of source_pods on %s:" % source_pods)
     selected_pod = pick(source_pods, title="Pick the POD to be backed up")
+
+    # PICK to select Destination Cluster for KMOTION
+    cluster2, _ = pick(contexts, title="Pick the target Cluster Context for the POD to be restored to",
+                       default_index=first_index)
+    client2 = client.CoreV1Api(
+        api_client=config.new_client_from_config(context=cluster2))
+
 
     for i in client1.list_pod_for_all_namespaces().items:
         if selected_pod[0] == i.metadata.name: # Return the Kubernetes API POD object
