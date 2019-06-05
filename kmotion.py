@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 # Hackathon Lucky Team13
 
 from kubernetes import client
