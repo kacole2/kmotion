@@ -12,10 +12,11 @@ def main():
     if not contexts:
         print("Cannot find any context in kube-config file.")
         return
-    # Python List of all contexts for use by PICK Module
-    contexts = [context['name'] for context in contexts]
 
+    # Create Python List of all contexts for use by PICK Module
+    contexts = [context['name'] for context in contexts]
     active_index = contexts.index(active_context['name'])
+
     # PICK to select SOURCE Cluster for KMOTION
     cluster1, first_index = pick(contexts, title="Pick the source Cluster Context for the POD to kmotioned",
                                  default_index=active_index)
@@ -24,7 +25,6 @@ def main():
 
     # Create Python List of all PODs in SRC Namespace for PICK Module
     source_pods = [i.metadata.name for i in client1.list_pod_for_all_namespaces().items]
-    # DEBUGONLY print("\nList of source_pods on %s:" % source_pods)
     selected_pod = pick(source_pods, title="Pick the POD to be backed up")
 
     # PICK to select Destination Cluster for KMOTION
@@ -48,11 +48,9 @@ def main():
     # usually app=xyz so this works. Can easily make a label selector for user to choose.
     akey = labels_list[0][0]
     avalue = labels_list[0][1]
-    #DEBUG print("akey =", akey)
-    #DEBUG print("avalue =", avalue)
     selector = '{0}={1}'.format(akey, avalue)
     backup_name = '{0}-{1}-{2}'.format(akey, avalue,timestr)
-    #DEBUG print("selector string is", selector)
+    #DEBUG print("\nsource_pod_object selected lables(","akey =", akey," avalue =", avalue,")\nselector string is", selector)
     print("\n|-|-|-|-|-| Temporary backup_name is", backup_name)
 
     ######## VELERO WORK ########
@@ -64,17 +62,14 @@ def main():
     while True:
         output = subprocess.check_output(['velero', 'backup', 'get', '--kubecontext', cluster2]).decode()
         print("\n|-|-|-|-|-| Waiting for backup ", backup_name, " to be synchronized with Recovery Cluster ", cluster2)
-        # DEBUG print("output velero get ", output)
-        # DEBUG print("backup_name.encode", backup_name)
-        # DEBUG print("Find Integer value", output.find(backup_name))
+        # DEBUG print("backup_name.encode=", backup_name, "output velero get =", output, "Find result=", output.find(backup_name))
         time.sleep(3)
         if (output.find(backup_name) != -1):
             print("\n|-|-|-|-|-| Velero backup ", backup_name, " exists on Recovery Cluster ", cluster2, ". Moving to next step.")
             break
-
     print('\n|-|-|-|-|-| KMotioning POD {0} from {1} cluster to {2} cluster... '.format(source_pod_object.metadata.name,cluster1,cluster2))
 
-    # VELERO Restore
+    # VELERO Backup Restore
     restore_create_cmd = ['velero', 'restore', 'create', backup_name, '--from-backup', backup_name, '-w','--kubecontext',cluster2]
     subprocess.check_call(restore_create_cmd)
 
