@@ -2,8 +2,6 @@
 
 from kubernetes import client
 from kubernetes import config
-# install pick using "pip install pick". It is not included
-# as a dependency because it only used in examples
 from pick import pick
 import subprocess
 import time
@@ -24,7 +22,6 @@ def main():
     client1 = client.CoreV1Api(
         api_client=config.new_client_from_config(context=cluster1))
 
-
     # Create Python List of all PODs in SRC Namespace for PICK Module
     source_pods = [i.metadata.name for i in client1.list_pod_for_all_namespaces().items]
     # DEBUGONLY print("\nList of source_pods on %s:" % source_pods)
@@ -39,30 +36,24 @@ def main():
 
     for i in client1.list_pod_for_all_namespaces().items:
         if selected_pod[0] == i.metadata.name: # Return the Kubernetes API POD object
-            print("--Found the POD Object for Selected POD")
+            #DEBUG print("--Found the POD Object for Selected POD")
             source_pod_object = i
 
-    print ('This is the POD you selected {0}'.format(source_pod_object.metadata.name))
-
-    # Grabbing labels from the POD object we now have.
-    #print("Labels for our POD to be backed up" )
-    #print("%s" % (source_pod_object.metadata.labels))
+    #DEBUG print ('This is the POD you selected {0}'.format(source_pod_object.metadata.name))
 
     # Create a LIST from the Labels Dict
     labels_list = [[k, v] for k, v in source_pod_object.metadata.labels.items()]
-    #print(labels_list[0])
-    #print(type(labels_list))
 
     # Will need to work on this in future - Currently takes first label for the pod
     # usually app=xyz so this works. Can easily make a label selector for user to choose.
     akey = labels_list[0][0]
     avalue = labels_list[0][1]
-    print("akey =", akey)
-    print("avalue =", avalue)
+    #DEBUG print("akey =", akey)
+    #DEBUG print("avalue =", avalue)
     selector = '{0}={1}'.format(akey, avalue)
     backup_name = '{0}-{1}-{2}'.format(akey, avalue,timestr)
-    print("selector string is", selector)
-    print("backup_name string is", backup_name)
+    #DEBUG print("selector string is", selector)
+    print("\n|-|-|-|-|-| Temporary backup_name is", backup_name)
 
     ######## VELERO WORK ########
     # VELERO BACKUP Create
@@ -72,38 +63,42 @@ def main():
     # Work to interpret results of velero backup get
     while True:
         output = subprocess.check_output(['velero', 'backup', 'get', '--kubecontext', cluster2]).decode()
-        print("Waiting for backup ", backup_name, " to be synchronized with Recovery Cluster ", cluster2)
+        print("\n|-|-|-|-|-| Waiting for backup ", backup_name, " to be synchronized with Recovery Cluster ", cluster2)
         # DEBUG print("output velero get ", output)
         # DEBUG print("backup_name.encode", backup_name)
         # DEBUG print("Find Integer value", output.find(backup_name))
         time.sleep(3)
         if (output.find(backup_name) != -1):
-            print("Velero backup ", backup_name, " exists on Recovery Cluster ", cluster2, ". Moving to next step.")
+            print("\n|-|-|-|-|-| Velero backup ", backup_name, " exists on Recovery Cluster ", cluster2, ". Moving to next step.")
             break
+
+    print('\n|-|-|-|-|-| KMotioning POD {0} from {1} cluster to {2} cluster... '.format(source_pod_object.metadata.name,cluster1,cluster2))
 
     # VELERO Restore
     restore_create_cmd = ['velero', 'restore', 'create', backup_name, '--from-backup', backup_name, '-w','--kubecontext',cluster2]
     subprocess.check_call(restore_create_cmd)
 
-    # VELERO Restore Describe
-    #DEBUG restore_describe_cmd = ['velero', 'restore', 'describe', backup_name, '--kubecontext',cluster2]
-    #DEBUG subprocess.check_call(restore_describe_cmd)
+    ### Check POD Status of Restored PODs in Recovery Cluster
+    while True:
+        for i in client2.list_pod_for_all_namespaces().items:
+            if i.metadata.labels:       # Verify dict exists and is not empty to prevent errors
+                if akey in i.metadata.labels.keys():
+                    if i.metadata.labels[akey] == avalue:
+                        #print("\nFound a POD with the SRC POD Label and Key ", akey, avalue)
+                        print("%s\t%s\t%s" % (i.metadata.name, i.metadata.namespace, i.status.phase))
+                        time.sleep(2)
+                        if i.status.phase == 'Running':
+                            print("\n|-|-|-|-|-| Restored PODs ", i.metadata.name, " is running on Recovery Cluster ", cluster2)
+                            status='Running'
+        if status=='Running':
+            break
 
-    # VELERO BACKUP Delete
-    backup_delete_cmd = ['velero', 'backup', 'delete', backup_name, '--kubecontext',cluster2, '-w', '--confirm']
+    print('\n|-|-|-|-|-| KMotion complete for POD {0} !!!!'.format(source_pod_object.metadata.name))
+    print('\n|-|-|-|-|-| Cleaning up temporary backup on SRC Cluster')
+    # VELERO BACKUP Delete from Source Context
+    backup_delete_cmd = ['velero', 'backup', 'delete', backup_name, '--kubecontext', cluster2, '--confirm']
     subprocess.check_call(backup_delete_cmd)
 
-    print('--KMotioning POD {0} from {1} cluster to {2} cluster... '.format(source_pod_object.metadata.name, cluster1, cluster2))
-
-    print("\n\nList of pods on %s:" % cluster2)
-    for i in client2.list_pod_for_all_namespaces().items:
-        if selected_pod[0] == i.metadata.name: # Return the Kubernetes API POD object
-            print("--Found the POD Object for Selected POD")
-            source_pod_object = i
-
-
-        print("%s\t%s\t%s\t%s" %
-              (i.status.pod_ip, i.metadata.namespace, i.metadata.name, i.status.phase))
 
 if __name__ == '__main__':
     main()
