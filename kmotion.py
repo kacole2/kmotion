@@ -70,7 +70,6 @@ def main():
     backup_create_cmd = ['velero', 'backup', 'create', backup_name, '--selector', selector, '-w', '--kubecontext', cluster1]
     subprocess.check_call(backup_create_cmd)
 
-
     # CAN PROBABLY GET RID OF THIS EVENTUALLY
     # VELERO BACKUP Status
     #DEBUG backup_query_cmd = ['velero', 'backup', 'describe', backup_name, '--kubecontext',cluster1]
@@ -83,11 +82,12 @@ def main():
     subprocess.check_call(backup_delete_cmd)
     print("DEBUG - Sleeping for 25 seconds")
     time.sleep(25)
-    '''
+    
 
     #DEBUG Check the existence of backup on the DESTINATION side.
     backup_get_cmd = ['velero', 'backup', 'get', '--kubecontext', cluster2]
     subprocess.check_call(backup_get_cmd)
+    '''
 
     # Work to interpret results of velero backup get
     output = subprocess.check_output(['velero', 'backup', 'get', '--kubecontext', cluster2 ]).decode()
@@ -102,14 +102,14 @@ def main():
         # return
     '''
 
-
-    while (output.find(backup_name) == -1):
+    if (output.find(backup_name) == -1):
         print("Waiting for backup ", backup_name, " to be synchronized with Recovery Cluster ", cluster2)
         #DEBUG print("output velero get ", output)
         #DEBUG print("backup_name.encode", backup_name)
         print("Find Integer value", output.find(backup_name))
         time.sleep(4)
-    else:
+        return
+    elif (output.find(backup_name) >= 0):
         print("Velero backup ", backup_name ," exists on Recovery Cluster ", cluster2, ". Moving to next step.")
         return
 
@@ -125,10 +125,7 @@ def main():
     backup_delete_cmd = ['velero', 'backup', 'delete', backup_name, '--kubecontext',cluster2, '--confirm']
     subprocess.check_call(backup_delete_cmd)
 
-
-
     print('KMotioning POD {0} from {1} cluster to {2} cluster... '.format(source_pod_object.metadata.name, cluster1, cluster2))
-
 
     '''
     print("\n\nList of pods on %s:" % cluster2)
