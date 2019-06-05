@@ -52,7 +52,7 @@ def main():
     avalue = labels_list[0][1]
     selector = '{0}={1}'.format(akey, avalue)
     backup_name = '{0}-{1}-{2}'.format(akey, avalue,timestr)
-    #DEBUG print("\nsource_pod_object selected lables(","akey =", akey," avalue =", avalue,")\nselector string is", selector)
+    print("\nsource_pod_object selected lables(","akey =",akey," avalue =",avalue,")\nselector string is",selector,"\nbackup_name=",backup_name)
     print("\n|-|-|-|-|-| Temporary backup_name is", backup_name)
 
     ######## VELERO WORK ########
@@ -64,7 +64,7 @@ def main():
     while True:
         output = subprocess.check_output(['velero', 'backup', 'get', '--kubecontext', cluster2]).decode()
         print("\n|-|-|-|-|-| Waiting for backup ", backup_name, " to be synchronized with Recovery Cluster ", cluster2)
-        # DEBUG print("backup_name.encode=", backup_name, "output velero get =", output, "Find result=", output.find(backup_name))
+        # DEBUG print("output velero get =", output, "Find result=", output.find(backup_name))
         time.sleep(3)
         if (output.find(backup_name) != -1):
             print("\n|-|-|-|-|-| Velero backup ", backup_name, " exists on Recovery Cluster ", cluster2, ". Moving to next step.")
