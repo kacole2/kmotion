@@ -79,19 +79,21 @@ def main():
     subprocess.check_call(restore_create_cmd)
 
     ### Check POD Status of Restored PODs in Recovery Cluster
-    while True:
-        for i in client2.list_pod_for_all_namespaces().items:
-            if i.metadata.labels:       # Verify dict exists and is not empty to prevent errors
-                if akey in i.metadata.labels.keys():
-                    if i.metadata.labels[akey] == avalue:
-                        #print("\nFound a POD with the SRC POD Label and Key ", akey, avalue)
-                        print("%s\t%s\t%s" % (i.metadata.name, i.metadata.namespace, i.status.phase))
-                        time.sleep(2)
+
+    for i in client2.list_pod_for_all_namespaces().items:
+        if i.metadata.labels:       # Verify dict exists and is not empty to prevent errors
+            if akey in i.metadata.labels.keys():
+                if i.metadata.labels[akey] == avalue:
+                    #print("\nFound a POD with the SRC POD Label and Key ", akey, avalue)
+                    print("%s\t%s\t%s" % (i.metadata.name, i.metadata.namespace, i.status.phase))
+                    while True:
                         if i.status.phase == 'Running':
                             print("\n|-|-|-|-|-| Restored PODs ", i.metadata.name, " is running on Recovery Cluster ", cluster2)
-                            status='Running'
-        if status=='Running':
-            break
+                            break
+                        else:
+                            print("Waiting..\n Restored PODs ", i.metadata.name, " status is ", i.status.phase)
+                            time.sleep(3)
+
 
     print('\n|-|-|-|-|-| KMotion complete for POD {0} !!!!'.format(source_pod_object.metadata.name))
     print('\n|-|-|-|-|-| Cleaning up temporary backup on SRC Cluster')
