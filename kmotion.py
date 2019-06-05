@@ -66,7 +66,7 @@ def main():
 
     ######## VELERO WORK ########
 
-    # VELERO BACKUP Section
+    # VELERO BACKUP Create
     backup_create_cmd = ['velero', 'backup', 'create', backup_name, '--selector', selector, '-w', '--kubecontext', cluster1]
     subprocess.check_call(backup_create_cmd)
 
@@ -103,8 +103,8 @@ def main():
     '''
     while (output.find(backup_name) == -1):
         print("Waiting for backup ", backup_name, " to be synchronized with Recovery Cluster ", cluster2)
-        #DEBUG print("output velero get ", output)
-        #DEBUG print("backup_name.encode", backup_name)
+        print("output velero get ", output)
+        print("backup_name.encode", backup_name)
         print("Find Integer value", output.find(backup_name))
         time.sleep(4)
 
