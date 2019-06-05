@@ -90,8 +90,10 @@ def main():
     '''
 
     # Work to interpret results of velero backup get
-    output = subprocess.check_output(['velero', 'backup', 'get', '--kubecontext', cluster2 ]).decode()
+    output = subprocess.check_output(['velero', 'backup', 'get', '--kubecontext', cluster2]).decode()
     print(type(output))
+    print(output)
+
 
     '''
     while (output.indexOf(backup_name) < 0):
@@ -101,6 +103,7 @@ def main():
         print("NEW output Velero backup exists on Recovery Cluster. Moving to next step.")
         # return
     '''
+    '''
     while (output.find(backup_name) == -1):
         print("Waiting for backup ", backup_name, " to be synchronized with Recovery Cluster ", cluster2)
         print("output velero get ", output)
@@ -109,6 +112,16 @@ def main():
         time.sleep(4)
 
     print("Velero backup ", backup_name ," exists on Recovery Cluster ", cluster2, ". Moving to next step.")
+    '''
+    while True:
+        print("Waiting for backup ", backup_name, " to be synchronized with Recovery Cluster ", cluster2)
+        print("output velero get ", output)
+        print("backup_name.encode", backup_name)
+        print("Find Integer value", output.find(backup_name))
+        time.sleep(4)
+        if (output.find(backup_name) != -1):
+            print("Velero backup ", backup_name, " exists on Recovery Cluster ", cluster2, ". Moving to next step.")
+            break
 
     # VELERO Restore
     restore_create_cmd = ['velero', 'restore', 'create', backup_name, '--from-backup', backup_name, '-w','--kubecontext',cluster2]
