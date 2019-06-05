@@ -116,27 +116,14 @@ def main():
 
     while (output.find(backup_name) == -1):
         print("Waiting for Backup to be synchronized with Recovery Cluster . . . ")
-        print("output velero get ", output)
-        print("backup_name.encode", backup_name)
+        #DEBUG print("output velero get ", output)
+        #DEBUG print("backup_name.encode", backup_name)
         print("Find Integer value", output.find(backup_name))
         time.sleep(4)
     else:
         print("Velero backup exists on Recovery Cluster. Moving to next step.")
         return
-    '''
 
-    # Not Working right now 
-    while (True):
-
-        if (output.find(backup_name) != -1):
-            print("Velero backup exists on Recovery Cluster. Moving to next step.")
-            break
-        else:
-            print("backup_name.encode", backup_name)
-            print("Find Integer value", output.find(backup_name))
-            print("Waiting for Backup to be synchronized with Recovery Cluster . . . ")
-            time.sleep(4)
-    '''
     # VELERO Restore
     restore_create_cmd = ['velero', 'restore', 'create', backup_name, '--from-backup', backup_name, '-w','--kubecontext',cluster2]
     subprocess.check_call(restore_create_cmd)
