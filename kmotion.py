@@ -89,10 +89,6 @@ def main():
     subprocess.check_call(backup_get_cmd)
     '''
 
-    # Work to interpret results of velero backup get
-    output = subprocess.check_output(['velero', 'backup', 'get', '--kubecontext', cluster2]).decode()
-    print(type(output))
-    print(output)
 
 
     '''
@@ -113,12 +109,16 @@ def main():
 
     print("Velero backup ", backup_name ," exists on Recovery Cluster ", cluster2, ". Moving to next step.")
     '''
+    # Work to interpret results of velero backup get
     while True:
+        output = subprocess.check_output(['velero', 'backup', 'get', '--kubecontext', cluster2]).decode()
+        print(type(output))
+        print(output)
         print("Waiting for backup ", backup_name, " to be synchronized with Recovery Cluster ", cluster2)
         print("output velero get ", output)
         print("backup_name.encode", backup_name)
         print("Find Integer value", output.find(backup_name))
-        time.sleep(4)
+        time.sleep(3)
         if (output.find(backup_name) != -1):
             print("Velero backup ", backup_name, " exists on Recovery Cluster ", cluster2, ". Moving to next step.")
             break
