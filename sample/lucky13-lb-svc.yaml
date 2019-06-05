@@ -10,7 +10,7 @@ kind: Service
 metadata:
   labels:
     app: nginx
-  name: nginx
+  name: lucky13
   namespace: lucky13
 spec:
   type: LoadBalancer
@@ -26,7 +26,7 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nginx
+  name: lucky13
   namespace: lucky13
 spec:
   selector:
@@ -39,7 +39,7 @@ spec:
         app: nginx
     spec:
       containers:
-      - name: nginx
+      - name: lucky13
         image: lander2k2/lucky13:0.11
         ports:
         - containerPort: 80
