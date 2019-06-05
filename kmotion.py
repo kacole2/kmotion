@@ -65,7 +65,6 @@ def main():
     print("backup_name string is", backup_name)
 
     ######## VELERO WORK ########
-
     # VELERO BACKUP Create
     backup_create_cmd = ['velero', 'backup', 'create', backup_name, '--selector', selector, '-w', '--kubecontext', cluster1]
     subprocess.check_call(backup_create_cmd)
@@ -87,20 +86,24 @@ def main():
     subprocess.check_call(restore_create_cmd)
 
     # VELERO Restore Describe
-    restore_describe_cmd = ['velero', 'restore', 'describe', backup_name, '--kubecontext',cluster2]
-    subprocess.check_call(restore_describe_cmd)
+    #DEBUG restore_describe_cmd = ['velero', 'restore', 'describe', backup_name, '--kubecontext',cluster2]
+    #DEBUG subprocess.check_call(restore_describe_cmd)
 
     # VELERO BACKUP Delete
-    backup_delete_cmd = ['velero', 'backup', 'delete', backup_name, '--kubecontext',cluster2, '--confirm']
+    backup_delete_cmd = ['velero', 'backup', 'delete', backup_name, '--kubecontext',cluster2, '-w', '--confirm']
     subprocess.check_call(backup_delete_cmd)
 
-    print('KMotioning POD {0} from {1} cluster to {2} cluster... '.format(source_pod_object.metadata.name, cluster1, cluster2))
-
+    print('--KMotioning POD {0} from {1} cluster to {2} cluster... '.format(source_pod_object.metadata.name, cluster1, cluster2))
 
     print("\n\nList of pods on %s:" % cluster2)
     for i in client2.list_pod_for_all_namespaces().items:
-        print("%s\t%s\t%s" %
-              (i.status.pod_ip, i.metadata.namespace, i.metadata.name))
+        if selected_pod[0] == i.metadata.name: # Return the Kubernetes API POD object
+            print("--Found the POD Object for Selected POD")
+            source_pod_object = i
+
+
+        print("%s\t%s\t%s\t%s" %
+              (i.status.pod_ip, i.metadata.namespace, i.metadata.name, i.status.phase))
 
 if __name__ == '__main__':
     main()

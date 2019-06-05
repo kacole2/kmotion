@@ -13,7 +13,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/kmotion$kmotion.coverage" NAME="kmotion Coverage Results" MODIFIED="1559704496106" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/kmotion$kmotion.coverage" NAME="kmotion Coverage Results" MODIFIED="1559706533460" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/kmotion$example1.coverage" NAME="example1 Coverage Results" MODIFIED="1559629009424" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/../python/examples" />
   </component>
   <component name="FileEditorManager">
@@ -21,8 +21,8 @@
       <file leaf-file-name="kmotion.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/kmotion.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="717">
-              <caret line="120" column="20" lean-forward="false" selection-start-line="120" selection-start-column="20" selection-end-line="120" selection-end-column="20" />
+            <state relative-caret-position="877">
+              <caret line="92" column="100" lean-forward="false" selection-start-line="92" selection-start-column="100" selection-end-line="92" selection-end-column="100" />
               <folding>
                 <element signature="e#26#55#0" expanded="true" />
               </folding>
@@ -419,7 +419,21 @@
       <option name="project" value="LOCAL" />
       <updated>1559704522198</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="Testing cant see backup on recovery cluster. Removed velero backup describe.">
+      <created>1559705445228</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1559705445228</updated>
+    </task>
+    <task id="LOCAL-00017" summary="Testing cant see backup on recovery cluster. Removed velero backup describe.">
+      <created>1559706062995</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1559706062995</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -509,8 +523,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/kmotion.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="717">
-          <caret line="120" column="20" lean-forward="false" selection-start-line="120" selection-start-column="20" selection-end-line="120" selection-end-column="20" />
+        <state relative-caret-position="877">
+          <caret line="92" column="100" lean-forward="false" selection-start-line="92" selection-start-column="100" selection-end-line="92" selection-end-column="100" />
           <folding>
             <element signature="e#26#55#0" expanded="true" />
           </folding>
