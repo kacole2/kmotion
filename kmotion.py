@@ -53,17 +53,6 @@ def main():
     #print(labels_list[0])
     #print(type(labels_list))
 
-    '''for item in source_pod_object.metadata.labels.items():
-        if "app" in source_pod_object.metadata.labels.items():
-            print("App Label Key found")
-
-            break
-        else:
-            print
-            "No keys found"
-    '''
-
-
     # Will need to work on this in future - Currently takes first label for the pod
     # usually app=xyz so this works. Can easily make a label selector for user to choose.
     akey = labels_list[0][0]
@@ -115,13 +104,13 @@ def main():
 
 
     while (output.find(backup_name) == -1):
-        print("Waiting for Backup to be synchronized with Recovery Cluster . . . ")
+        print("Waiting for backup ", backup_name, " to be synchronized with Recovery Cluster ", cluster2)
         #DEBUG print("output velero get ", output)
         #DEBUG print("backup_name.encode", backup_name)
         print("Find Integer value", output.find(backup_name))
         time.sleep(4)
     else:
-        print("Velero backup exists on Recovery Cluster. Moving to next step.")
+        print("Velero backup ", backup_name ," exists on Recovery Cluster ", cluster2, ". Moving to next step.")
         return
 
     # VELERO Restore
