@@ -33,7 +33,7 @@ def main():
     client2 = client.CoreV1Api(
         api_client=config.new_client_from_config(context=cluster2))
 
-
+    start_time = time.time()
     for i in client1.list_pod_for_all_namespaces().items:
         if selected_pod[0] == i.metadata.name: # Return the Kubernetes API POD object
             #DEBUG print("--Found the POD Object for Selected POD")
@@ -94,12 +94,14 @@ def main():
                             print("Waiting..\n Restored PODs ", i.metadata.name, " status is ", i.status.phase)
                             time.sleep(3)
 
-
+    end_time = time.time()
     print('\n|-|-|-|-|-| KMotion complete for POD {0} !!!!'.format(source_pod_object.metadata.name))
-    print('\n|-|-|-|-|-| Cleaning up temporary backup on SRC Cluster')
+    print('\n|-|-|-|-|-| KMotion time was {0} Seconds.'.format(end_time-start_time))
+    print('|-|-|-|-|-| Cleaning up temporary backup on SRC Cluster')
     # VELERO BACKUP Delete from Source Context
     backup_delete_cmd = ['velero', 'backup', 'delete', backup_name, '--kubecontext', cluster2, '--confirm']
     subprocess.check_call(backup_delete_cmd)
+
 
 
 if __name__ == '__main__':
