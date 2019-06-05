@@ -69,7 +69,7 @@ def main():
         if (output.find(backup_name) != -1):
             print("\n|-|-|-|-|-| Velero backup ", backup_name, " exists on Recovery Cluster ", cluster2, ". Moving to next step.")
             break
-    print('\n|-|-|-|-|-| KMotioning POD {0} from {1} cluster to {2} cluster... '.format(source_pod_object.metadata.name,cluster1,cluster2))
+    print('\n|-|-|-|-|-| KMotioning POD {0} from {1} cluster to {2} cluster... \n'.format(source_pod_object.metadata.name,cluster1,cluster2))
 
     # VELERO Backup Restore
     restore_create_cmd = ['velero', 'restore', 'create', backup_name, '--from-backup', backup_name, '-w','--kubecontext',cluster2]
@@ -77,29 +77,25 @@ def main():
 
     ### Check POD Status of Restored PODs in Recovery Cluster
 
-    for i in client2.list_pod_for_all_namespaces().items:
-        if i.metadata.labels:       # Verify dict exists and is not empty to prevent errors
-            if akey in i.metadata.labels.keys():
-                if i.metadata.labels[akey] == avalue:
-                    #print("\nFound a POD with the SRC POD Label and Key ", akey, avalue)
-                    print("%s\t%s\t%s" % (i.metadata.name, i.metadata.namespace, i.status.phase))
-                    while True:
-                        if i.status.phase == 'Running':
-                            print("\n|-|-|-|-|-| Restored PODs ", i.metadata.name, " is running on Recovery Cluster ", cluster2)
-                            break
-                        else:
-                            print("Waiting..\n Restored PODs ", i.metadata.name, " status is ", i.status.phase)
-                            time.sleep(3)
+    while True:
+        pod = client1.read_namespaced_pod(name=source_pod_object.metadata.name,
+                                          namespace=source_pod_object.metadata.namespace)
+
+        if pod.status.phase == 'Running':
+            print("\n|-|-|-|-|-| Restored POD", pod.metadata.name, " is Running on Recovery Cluster ", cluster1)
+            break
+        else:
+            print('Waiting for POD {0} status to be Running. \nCurrent status is {1}'.format(pod.metadata.name, pod.status.phase))
+            time.sleep(3)
 
     end_time = time.time()
     print('\n|-|-|-|-|-| KMotion complete for POD {0} !!!!'.format(source_pod_object.metadata.name))
     print('\n|-|-|-|-|-| KMotion time was {0} Seconds.'.format(end_time-start_time))
     print('|-|-|-|-|-| Cleaning up temporary backup on SRC Cluster')
+
     # VELERO BACKUP Delete from Source Context
     backup_delete_cmd = ['velero', 'backup', 'delete', backup_name, '--kubecontext', cluster2, '--confirm']
     subprocess.check_call(backup_delete_cmd)
-
-
 
 if __name__ == '__main__':
     main()
