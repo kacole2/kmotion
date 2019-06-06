@@ -89,8 +89,8 @@ def main():
             time.sleep(3)
 
     end_time = time.time()
-    print('\n|-|-|-|-|-| kMotion complete for POD {0} !!!!'.format(source_pod_object.metadata.name))
-    print('\n|-|-|-|-|-| kMotion time was {0} Seconds.'.format(end_time-start_time))
+    print('|-|-|-|-|-| kMotion complete for POD {0} !!!!'.format(source_pod_object.metadata.name))
+    print('|-|-|-|-|-| kMotion time was {0} Seconds.'.format(end_time-start_time))
     print('|-|-|-|-|-| Cleaning up temporary backup on SRC Cluster\n')
 
     # VELERO BACKUP Delete from Source Context
