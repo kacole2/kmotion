@@ -1,5 +1,4 @@
 #!/usr/bin/python3
-
 # Hackathon Lucky Team13
 
 from kubernetes import client
@@ -52,8 +51,8 @@ def main():
     avalue = labels_list[0][1]
     selector = '{0}={1}'.format(akey, avalue)
     backup_name = '{0}-{1}-{2}'.format(akey, avalue,timestr)
-    print("\nsource_pod_object selected lables(","akey =",akey," avalue =",avalue,")\nselector string is",selector,"\nbackup_name=",backup_name)
-    print("\n|-|-|-|-|-| Temporary backup_name is", backup_name)
+    print('\n|-|-|-|-|-| Pod object:{0}. Pod label key:{1}. Pod label value:{2}'.format(source_pod_object.metadata.name,akey,avalue))
+    print('\n|-|-|-|-|-| Temporary backup_name is: {0}. and label selector is:{1}\n'.format(backup_name,selector))
 
     ######## VELERO WORK ########
     # VELERO BACKUP Create
@@ -63,7 +62,7 @@ def main():
     # Work to interpret results of velero backup get
     while True:
         output = subprocess.check_output(['velero', 'backup', 'get', '--kubecontext', cluster2]).decode()
-        print("\n|-|-|-|-|-| Waiting for backup ", backup_name, " to be synchronized with Recovery Cluster ", cluster2)
+        print("|-|-|-|-|-| Waiting for backup ", backup_name, " to be synchronized with Recovery Cluster ", cluster2)
         # DEBUG print("output velero get =", output, "Find result=", output.find(backup_name))
         time.sleep(3)
         if (output.find(backup_name) != -1):
@@ -91,7 +90,7 @@ def main():
     end_time = time.time()
     print('\n|-|-|-|-|-| KMotion complete for POD {0} !!!!'.format(source_pod_object.metadata.name))
     print('\n|-|-|-|-|-| KMotion time was {0} Seconds.'.format(end_time-start_time))
-    print('|-|-|-|-|-| Cleaning up temporary backup on SRC Cluster')
+    print('|-|-|-|-|-| Cleaning up temporary backup on SRC Cluster\n')
 
     # VELERO BACKUP Delete from Source Context
     backup_delete_cmd = ['velero', 'backup', 'delete', backup_name, '--kubecontext', cluster2, '--confirm']
