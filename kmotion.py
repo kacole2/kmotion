@@ -58,6 +58,7 @@ def main():
     # VELERO BACKUP Create
     backup_create_cmd = ['velero', 'backup', 'create', backup_name, '--selector', selector, '-w', '--kubecontext', cluster1]
     subprocess.check_call(backup_create_cmd)
+    print("")
 
     # Work to interpret results of velero backup get
     while True:
