@@ -23,8 +23,8 @@
       <file leaf-file-name="kmotion.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/kmotion.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="346">
-              <caret line="64" column="100" lean-forward="false" selection-start-line="64" selection-start-column="100" selection-end-line="64" selection-end-column="100" />
+            <state relative-caret-position="169">
+              <caret line="64" column="113" lean-forward="false" selection-start-line="64" selection-start-column="113" selection-end-line="64" selection-end-column="113" />
               <folding>
                 <element signature="e#45#74#0" expanded="true" />
               </folding>
@@ -631,7 +631,14 @@
       <option name="project" value="LOCAL" />
       <updated>1559842407057</updated>
     </task>
-    <option name="localTasksCounter" value="35" />
+    <task id="LOCAL-00035" summary="Cleaned up Logging.">
+      <created>1559843021178</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1559843021178</updated>
+    </task>
+    <option name="localTasksCounter" value="36" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -823,8 +830,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/kmotion.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="346">
-          <caret line="64" column="100" lean-forward="false" selection-start-line="64" selection-start-column="100" selection-end-line="64" selection-end-column="100" />
+        <state relative-caret-position="169">
+          <caret line="64" column="113" lean-forward="false" selection-start-line="64" selection-start-column="113" selection-end-line="64" selection-end-column="113" />
           <folding>
             <element signature="e#45#74#0" expanded="true" />
           </folding>

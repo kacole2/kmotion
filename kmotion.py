@@ -62,7 +62,7 @@ def main():
     # Work to interpret results of velero backup get
     while True:
         output = subprocess.check_output(['velero', 'backup', 'get', '--kubecontext', cluster2]).decode()
-        print("|-|-|-|-|-| Waiting for Recovery Cluster", cluster2, " to sync with S3 ", backup_name)
+        print("|-|-|-|-|-| Waiting for Recovery Cluster", cluster2, " to recognize backup ", backup_name," on S3.")
         # DEBUG print("output velero get =", output, "Find result=", output.find(backup_name))
         time.sleep(3)
         if (output.find(backup_name) != -1):
