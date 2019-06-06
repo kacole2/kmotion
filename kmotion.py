@@ -37,10 +37,8 @@ def main():
     start_time = time.time()
     for i in client1.list_pod_for_all_namespaces().items:
         if selected_pod[0] == i.metadata.name: # Return the Kubernetes API POD object
-            #DEBUG print("--Found the POD Object for Selected POD")
+            # DEBUG print ('This is the POD you selected {0}'.format(source_pod_object.metadata.name))
             source_pod_object = i
-
-    #DEBUG print ('This is the POD you selected {0}'.format(source_pod_object.metadata.name))
 
     # Create a LIST from the Labels Dict
     labels_list = [[k, v] for k, v in source_pod_object.metadata.labels.items()]
