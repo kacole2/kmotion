@@ -625,7 +625,14 @@
       <option name="project" value="LOCAL" />
       <updated>1559776875972</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="Fixed Status Check of Restored PODs">
+      <created>1559776933072</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1559776933072</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -665,7 +672,8 @@
     <MESSAGE value="Testing cant see backup on recovery cluster. Removed velero backup describe." />
     <MESSAGE value="Working with status check of restored PODs" />
     <MESSAGE value="Added new sample file for svc-type LB" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added new sample file for svc-type LB" />
+    <MESSAGE value="Fixed Status Check of Restored PODs" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed Status Check of Restored PODs" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
