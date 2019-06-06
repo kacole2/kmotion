@@ -24,7 +24,7 @@
         <entry file="file://$PROJECT_DIR$/kmotion.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="264">
-              <caret line="53" column="76" lean-forward="false" selection-start-line="53" selection-start-column="76" selection-end-line="53" selection-end-column="76" />
+              <caret line="53" column="34" lean-forward="false" selection-start-line="53" selection-start-column="34" selection-end-line="53" selection-end-column="34" />
               <folding>
                 <element signature="e#45#74#0" expanded="true" />
               </folding>
@@ -640,7 +640,14 @@
       <option name="project" value="LOCAL" />
       <updated>1559780010923</updated>
     </task>
-    <option name="localTasksCounter" value="32" />
+    <task id="LOCAL-00032" summary="Cleaned up Logging.">
+      <created>1559839174903</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1559839174903</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -681,7 +688,8 @@
     <MESSAGE value="Working with status check of restored PODs" />
     <MESSAGE value="Added new sample file for svc-type LB" />
     <MESSAGE value="Fixed Status Check of Restored PODs" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed Status Check of Restored PODs" />
+    <MESSAGE value="Cleaned up Logging." />
+    <option name="LAST_COMMIT_MESSAGE" value="Cleaned up Logging." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -797,7 +805,7 @@
     <entry file="file://$PROJECT_DIR$/kmotion.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="264">
-          <caret line="53" column="76" lean-forward="false" selection-start-line="53" selection-start-column="76" selection-end-line="53" selection-end-column="76" />
+          <caret line="53" column="34" lean-forward="false" selection-start-line="53" selection-start-column="34" selection-end-line="53" selection-end-column="34" />
           <folding>
             <element signature="e#45#74#0" expanded="true" />
           </folding>

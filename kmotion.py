@@ -51,8 +51,8 @@ def main():
     avalue = labels_list[0][1]
     selector = '{0}={1}'.format(akey, avalue)
     backup_name = '{0}-{1}-{2}'.format(akey, avalue,timestr)
-    print('\n|-|-|-|-|-| Pod object:{0}. Pod label key:{1}. Pod label value:{2}'.format(source_pod_object.metadata.name,akey,avalue))
-    print('\n|-|-|-|-|-| Temporary backup_name is: {0}. and label selector is:{1}\n'.format(backup_name,selector))
+    print('\n|-|-|-|-|-| Selected Pod object: {0}. Pod label key: {1}. Pod label value: {2}'.format(source_pod_object.metadata.name,akey,avalue))
+    print('\n|-|-|-|-|-| Temporary backup_name is: {0}. and label selector is: {1}\n'.format(backup_name,selector))
 
     ######## VELERO WORK ########
     # VELERO BACKUP Create
