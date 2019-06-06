@@ -22,7 +22,7 @@
       <file leaf-file-name="kmotion.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/kmotion.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="211">
+            <state relative-caret-position="590">
               <caret line="95" column="46" lean-forward="true" selection-start-line="95" selection-start-column="46" selection-end-line="95" selection-end-column="46" />
               <folding>
                 <element signature="e#46#75#0" expanded="true" />
@@ -632,7 +632,14 @@
       <option name="project" value="LOCAL" />
       <updated>1559776933072</updated>
     </task>
-    <option name="localTasksCounter" value="31" />
+    <task id="LOCAL-00031" summary="Fixed Status Check of Restored PODs">
+      <created>1559780010923</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1559780010923</updated>
+    </task>
+    <option name="localTasksCounter" value="32" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -788,7 +795,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/kmotion.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="211">
+        <state relative-caret-position="590">
           <caret line="95" column="46" lean-forward="true" selection-start-line="95" selection-start-column="46" selection-end-line="95" selection-end-column="46" />
           <folding>
             <element signature="e#46#75#0" expanded="true" />
