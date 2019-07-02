@@ -9,12 +9,13 @@ import time
 
 def main():
     timestr = time.strftime("%Y%m%d-%H%M%S")
+    # Build Python Dict of all Kubeconfig contexts for user to select SRC & TGT Clusters.
     contexts, active_context = config.list_kube_config_contexts()
     if not contexts:
         print("Cannot find any context in kube-config file.")
         return
 
-    # Create Python List of all contexts for use by PICK Module
+    # Create Python List of all contexts by Context Name for use by PICK Module
     contexts = [context['name'] for context in contexts]
     active_index = contexts.index(active_context['name'])
 
@@ -35,6 +36,7 @@ def main():
         api_client=config.new_client_from_config(context=cluster2))
 
     start_time = time.time()
+    # Iterate through a list of PODS in all namespaces.
     for i in client1.list_pod_for_all_namespaces().items:
         if selected_pod[0] == i.metadata.name: # Return the Kubernetes API POD object
             # DEBUG print ('This is the POD you selected {0}'.format(source_pod_object.metadata.name))
