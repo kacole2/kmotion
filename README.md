@@ -1,9 +1,16 @@
 # kmotion
-it's like vMotion, but for containers... get it?
+kmotion is a wrapper script that uses the kubernetes python client and velero under the covers to very quickly migrate an entire kubernetes application (including Services, Deployments, PODs) from one Kubernetes cluster to another.
 
-## Sample Workload Deployment
+## Prerequisites
+To leverage kmotion you will need the following.
+1. Python3 Installed
+2. The kmotion script (from this repo).
+3. A kubeconfig file with two clusters configured and access to those two clusters.
 
-To deploy the sample workload:
+
+## Using Kmotion
+
+To deploy the sample workload into the Source Cluster:
 
     $ kubectl apply -f sample/lucky13.yaml
 
